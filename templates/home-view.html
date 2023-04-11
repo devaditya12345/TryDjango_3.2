@@ -1,0 +1,32 @@
+<!-- use as template inheritance -->
+{% extends "base.html"%}
+
+{% block content %}
+
+<h1>Hello {{title}}!.</h1>
+<p1>{{content}} having id {{id}}.</p1>
+
+<ul>
+    {% for x in my_list %}
+    <li> {{x}} </li>
+    {% endfor %}
+</ul>
+
+<div> 
+<ul>
+    {% for x in object_list %}
+    <li><a href="/articles/{{x.id}}" target="_main">{{x.title}}-{{x.content}}</a></li>
+    {% endfor %}
+
+    <!-- /articles/{{x.id}}-ye sahi cheez hai,isse apne database ka address samajh aa rha hai -->
+</ul>
+</div> 
+
+
+<div>
+    <h2><a href="articles/create/">Click here to create new articles.</a></h2>
+    <h2><a href="login/">Click here to login.</a></h2>
+</div>  
+
+
+{% endblock content%}
