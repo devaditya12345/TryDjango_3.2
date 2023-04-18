@@ -34,9 +34,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('',home_view),
-    path('articles/<int:id>',article_detail_view),
+    # path('articles/<int:id>',article_detail_view),
+    # path('articles/<slug:slug>/', article_detail_view),
     path('ramdi/',article_search_view),
-    path('articles/create/',article_create_view),
+    # path('articles/create/',article_create_view),
+    path('articles/create/', article_create_view, name='article-create'), #reverse URLs
+    path('articles/<slug:slug>/', article_detail_view, name='article-detail'), #reverse URLs
     path('login/',login_view),
     path('logout/',logout_view),
     path('register/',register_view)

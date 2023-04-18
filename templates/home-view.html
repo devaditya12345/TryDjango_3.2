@@ -6,6 +6,12 @@
 <h1>Hello {{title}}!.</h1>
 <p1>{{content}} having id {{id}}.</p1>
 
+<br><br>
+<a href='{% url "article-create" %}'>Create Article</a> <!-- Reverse URLs -->
+<br>
+<a href='{% url "article-detail" slug="hello-world" %}'>Hello world article</a> <!-- Reverse URLs -->
+<br>
+
 <ul>
     {% for x in my_list %}
     <li> {{x}} </li>
@@ -15,7 +21,9 @@
 <div> 
 <ul>
     {% for x in object_list %}
-    <li><a href="/articles/{{x.id}}" target="_main">{{x.title}}-{{x.content}}</a></li>
+    <!-- <li><a href="/articles/{{x.id}}" target="_main">{{x.title}}-{{x.content}}</a></li> -->
+    <!-- <li><a href='/articles/{{ x.slug }}/'>{{ x.title }} - {{ x.content }}</a></li> -->
+    <li><a href='{{ x.get_absolute_url }}'>{{ x.title }} - {{ x.content }}</a></li>
     {% endfor %}
 
     <!-- /articles/{{x.id}}-ye sahi cheez hai,isse apne database ka address samajh aa rha hai -->

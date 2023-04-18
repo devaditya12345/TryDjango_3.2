@@ -7,38 +7,74 @@ from django.contrib.auth.decorators import login_required
 from .models import Article
 from .forms import ArticleForm
 from .forms import ArticleFormNew
+from django.http import Http404
+from django.db.models import Q #for the sake of complex search
 
 
-def article_detail_view(request, id=None):
+# def article_detail_view(request, id=None):
+def article_detail_view(request, slug=None):
     article_obj = None
-    if id is not None:
-        article_obj = Article.objects.get(id=id)
+    # if id is not None:
+    #     article_obj = Article.objects.get(id=id)
+    if slug is not None:
+        try:
+            article_obj = Article.objects.get(slug=slug)
+        except Article.DoesNotExist:
+            raise Http404
+        except Article.MultipleObjectsReturned:
+            article_obj = Article.objects.filter(slug=slug).first()
+        except:
+            raise Http404
     context = {
-        "object": article_obj
+        "object": article_obj,
     }
     return render(request, 'articles/detail.html', context=context)
 
+#commentng this search function to implement the complex search below
+# def article_search_view(request):
 
+#     print(request.GET)
+#     query_dict = request.GET  # GET REQUEST CONSISTS OF DICTIONARY
+
+#     # query=query_dict.get('q') #HERE WE FETCH THE VALUE OF 'q' from the GET REQUEST DICTIONARY{'q':ENTERED INT} , <input type="text" name="q">
+
+#     try:
+#         query = int(query_dict.get('q'))
+#     except:
+#         query = None
+
+#     article_obj = None
+#     if query is not None:
+#         article_obj = Article.objects.get(id=query)
+
+#     context = {
+#         "object": article_obj
+#     }
+#     return render(request, 'articles/search.html', context=context)
+
+#complex search
+# def article_search_view(request):
+#     query = request.GET.get('q')
+#     qs = Article.objects.all()
+#     if query is not None:
+#         lookups = Q(title__icontains=query) | Q(content__icontains=query) # can look for both title and content
+#         qs = Article.objects.filter(lookups)
+#         # qs = Article.objects.search(query)
+#     context = {
+#         "object_list": qs
+#     }
+#     return render(request, "articles/search.html", context=context)
+
+
+# More complex search
 def article_search_view(request):
-
-    print(request.GET)
-    query_dict = request.GET  # GET REQUEST CONSISTS OF DICTIONARY
-
-    # query=query_dict.get('q') #HERE WE FETCH THE VALUE OF 'q' from the GET REQUEST DICTIONARY{'q':ENTERED INT} , <input type="text" name="q">
-
-    try:
-        query = int(query_dict.get('q'))
-    except:
-        query = None
-
-    article_obj = None
-    if query is not None:
-        article_obj = Article.objects.get(id=query)
-
+    query = request.GET.get('q')
+    qs = Article.objects.search(query=query)
     context = {
-        "object": article_obj
+        "object_list": qs
     }
-    return render(request, 'articles/search.html', context=context)
+    return render(request, "articles/search.html", context=context)
+
 
 # for the sake of simple create article
 # @login_required
@@ -123,6 +159,10 @@ def article_create_view(request):
         # title = form.cleaned_data.get('title')
         # content = form.cleaned_data.get('content')
         # article_object = Article.objects.create(title=title, content=content)
-        context['object'] = article_object
-        context['created'] = True
+
+        # return redirect("article-detail", slug=article_object.slug)
+        return redirect(article_object.get_absolute_url())
+    
+        # context['object'] = article_object ,these two works before we write the redirect method
+        # context['created'] = True
     return render(request, 'articles/create.html', context=context)
