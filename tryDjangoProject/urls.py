@@ -14,16 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+# from django.urls import path
+from django.urls import include, path
 
 
 from .views import home_view
 # from articles import views
-from articles.views import (
-    article_create_view,
-    article_search_view,
-    article_detail_view
-)
+# from articles.views import (
+#     article_create_view,
+#     article_search_view,
+#     article_detail_view
+# )
 from accounts.views import (
     login_view,
     logout_view,
@@ -36,11 +37,14 @@ urlpatterns = [
     path('',home_view),
     # path('articles/<int:id>',article_detail_view),
     # path('articles/<slug:slug>/', article_detail_view),
-    path('ramdi/',article_search_view),
-    # path('articles/create/',article_create_view),
-    path('articles/create/', article_create_view, name='article-create'), #reverse URLs
-    path('articles/<slug:slug>/', article_detail_view, name='article-detail'), #reverse URLs
+    # path('articles/',article_search_view),
+    # # path('articles/create/',article_create_view),
+    # path('articles/create/', article_create_view, name='article-create'), #reverse URLs
+    # path('articles/<slug:slug>/', article_detail_view, name='article-detail'), #reverse URLs
     path('login/',login_view),
     path('logout/',logout_view),
-    path('register/',register_view)
+    path('register/',register_view),
+
+    path('pantry/recipes/', include('recipes.urls')),
+    path('articles/', include('articles.urls')),
 ]

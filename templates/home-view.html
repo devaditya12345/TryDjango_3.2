@@ -7,9 +7,13 @@
 <p1>{{content}} having id {{id}}.</p1>
 
 <br><br>
-<a href='{% url "article-create" %}'>Create Article</a> <!-- Reverse URLs -->
+
+<a href='{% url "recipes:list" %}'>GO TO RECIPES</a>
 <br>
-<a href='{% url "article-detail" slug="hello-world" %}'>Hello world article</a> <!-- Reverse URLs -->
+<br>
+<a href='{% url "articles:create" %}'>Create Article</a>
+<br>
+<a href='{% url "articles:detail" slug="hello-world" %}'>Hello world article</a>
 <br>
 
 <ul>

@@ -47,11 +47,13 @@ class Article(models.Model):
 
 
     #Added for home_view (and detail.html)
-    def get_absolute_url(self):
-        return f'/articles/{self.slug}/'
+    def get_absolute_url(self): #hain to reverse url hi
+        # return f'/articles/{self.slug}/'
+        return reverse("articles:detail", kwargs={"slug": self.slug})
     
-    def reverse_url(self):
-         return reverse("article-detail", kwargs={"slug": self.slug})
+    # def reverse_url(self):
+    #     #  return reverse("article-detail", kwargs={"slug": self.slug})
+    #      return reverse("articles:detail", kwargs={"slug": self.slug})
 
     objects=ArticleManager() #for more complex search to make things more ROBUST (qs = Article.objects.search(query=query))
     

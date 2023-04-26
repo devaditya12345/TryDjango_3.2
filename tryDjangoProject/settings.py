@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # ye hm likh rhe h,isse hm apne django project database model add kr rhe h
     "articles",
+    "recipes"
 ]
 
 MIDDLEWARE = [
