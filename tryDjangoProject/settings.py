@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # ye hm likh rhe h,isse hm apne django project database model add kr rhe h
     "articles",
-    "recipes"
+    "recipes",
+    "django_htmx"
 ]
 
 MIDDLEWARE = [
@@ -60,7 +61,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-]
+    'django_htmx.middleware.HtmxMiddleware',
+    ]
 
 ROOT_URLCONF = "tryDjangoProject.urls"
 
