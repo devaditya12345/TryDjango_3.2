@@ -14,8 +14,8 @@
     </div>
    {% endfor %}
 
-
-    {% if formset %}
+<!-- Commenting for the sake of 68th video as their is no need of formset there -->
+    <!-- {% if formset %}
     <h3>Ingredients</h3>
     {{ formset.management_form }}
     <div id='ingredient-form-list'>
@@ -28,7 +28,7 @@
 
     <div id='empty-form' class='hidden'>{{ formset.empty_form.as_p }}</div>
     <button id='add-more' type='button'>Add more</button>
-    {% endif %}
+    {% endif %} -->
 
     <!-- <button style='margin-top:10px;' type='submit' >Save</button> -->
     <div class='htmx-indicator'>Loading...</div>
