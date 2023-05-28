@@ -1,7 +1,15 @@
 from django import forms
 
 
-from .models import Recipe, RecipeIngredient
+from .models import Recipe, RecipeIngredient, RecipeIngredientImage
+
+class RecipeIngredientImageForm(forms.ModelForm):
+    class Meta:
+        model = RecipeIngredientImage
+        fields = ['image']
+        labels = {
+            "image": "Extract via Image Upload"
+        }
 
 
 class RecipeForm(forms.ModelForm):
@@ -26,8 +34,16 @@ class RecipeForm(forms.ModelForm):
         # django-crispy-forms
         for field in self.fields: # yha fields matlab , fields = ['name', 'description', 'directions']
             new_data = {
-                "placeholder": f'Recipe {str(field)}', # matlab : "placeholder": f'Recipe name}',"placeholder": f'Recipe description}',"placeholder": f'Recipe directions}' ,,har loop me ek ek set hoga
-                "class": 'form-control'
+                "placeholder": f'Recipe {str(field)}', # matlab : "placeholder": f'Recipe name',"placeholder": f'Recipe description}',"placeholder": f'Recipe directions}' ,,har loop me ek ek set hoga
+                "class": 'form-control',
+
+                #simply autosave ke liye likhe hai har field me change hone par,(iise easy hai form.html me hx-trigger:changed delay:500 ms se bhi ho jaayega ,yha itna likhne ki koi zaroorat nhi h,par theek h)
+
+                #70th video me ye comment ho hi gya kyonki iska koi kaam ab hai hi nhi(pehle bhi nhi tha)
+                # "hx-post": ".",
+                # "hx-trigger": "keyup changed delay:500ms",
+                # "hx-target": "#recipe-container",
+                # "hx-swap": "outerHTML"
             }
             self.fields[str(field)].widget.attrs.update(  # yha pe new_data ki tarz pe updation ho rha h (naa samajh aaye to neeche wala commented and uncommented part dekh lo)
                 new_data

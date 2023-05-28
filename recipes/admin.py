@@ -2,9 +2,11 @@ from django.contrib.auth import get_user_model
 from django.contrib import admin
 
 # Register your models here.
-from .models import RecipeIngredient, Recipe
+from .models import RecipeIngredient, Recipe, RecipeIngredientImage
 
 user = get_user_model()
+
+admin.site.register(RecipeIngredientImage)
 
 admin.site.register(RecipeIngredient) #Seekhne ke liye acha hai
 

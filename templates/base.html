@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://unpkg.com/htmx.org@1.5.0"></script>
-    <style>
+    <!-- <style>
+
+        static files me daal ke use kr rhe hai isko
         .htmx-indicator {
             display: none;
         }
@@ -20,20 +23,32 @@
         .htmx-request .htmx-inverted-indicator {
             display: none;
         }
-    </style>
+    </style> -->
+    <link rel='stylesheet' href='{% static "recipes/recipes-htmx.css" %}' />
+    <!-- <link rel='stylesheet' href="static/recipes/recipes-htmx.css"  /> ye wala andar wale static ke liye hai(pr ye overwrite ho jayega) -->
 </head>
 
 <body>
     <h1>Hello World!<h1>
-     
-    <form action="/articles/" method="GET">
+           
+            <!-- <form action="/articles/" method="GET">
         <input type="text" name="q">
         <input type="submit">
-    </form>    
+    </form>    to made search more dynamic -->
+            {% include 'search/search-form.html' %}
 
 
-    {% block content %}
-    {% endblock content%}
+            {% block content %}
+            {% endblock content%}
+
+            <script>
+                document.body.addEventListener("htmx:configRequest", (event) => {
+                    event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}'
+                })
+
+        // for the htmx in delete recipe and recipe ingredient
+            </script>
+
 </body>
 
 </html>

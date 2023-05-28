@@ -30,6 +30,8 @@ from accounts.views import (
     logout_view,
     register_view)
 
+from search.views import search_view
+
 urlpatterns = [
 
     path('admin/', admin.site.urls),
@@ -44,7 +46,8 @@ urlpatterns = [
     path('login/',login_view),
     path('logout/',logout_view),
     path('register/',register_view),
-
+    path('search/', search_view, name='search'),
+    
     path('pantry/recipes/', include('recipes.urls')),
     path('articles/', include('articles.urls')),
 ]

@@ -5,21 +5,6 @@ import typing
 import json
 
 def number_str_to_float(amount_str:str) -> typing.Tuple[any, bool]:
-    """
-    Take in an amount string to return float (if possible).
-    
-    Valid string returns:
-    Float
-    Boolean -> True
-    Invalid string Returns
-    Original String
-    Boolean -> False
-    
-    Examples:
-    1 1/2 -> 1.5, True
-    32 -> 32.0, True
-    Abc -> Abc, False
-    """
     success = False
     number_as_float = amount_str
     try:
@@ -30,6 +15,35 @@ def number_str_to_float(amount_str:str) -> typing.Tuple[any, bool]:
         success = True
     return number_as_float, success
 
+
+
+extracted = '''
+{
+  "ParsedResults": [
+    {
+      "TextOverlay": {
+        "Lines": [],
+        "HasOverlay": false,
+        "Message": "Text overlay is not provided as it is not requested"
+      },
+      "TextOrientation": "0",
+      "FileParseExitCode": 1,
+      "ParsedText": "Course Approach\r\nProgramming\r\nUsage\r\nFoundations\r\nLoops, Plotting\r\nMath, Functions\r\nVariables, Scripts\r\n",
+      "ErrorMessage": "",
+      "ErrorDetails": ""
+    }
+  ],
+  "OCRExitCode": 1,
+  "IsErroredOnProcessing": false,
+  "ProcessingTimeInMilliseconds": "1578",
+  "SearchablePDFURL": "Searchable PDF not generated as it was not requested."
+}
+'''
+
+parsed_data = json.loads(extracted)
+og = parsed_data['ParsedResults'][0]['ParsedText']
+
+# og = extracted['parsed_text']
 
 def parse_paragraph_to_recipe_line(paragraph):
     paragraph = paragraph.replace("\n", " ").replace("\f", " ").replace("\t", " ")
@@ -65,33 +79,24 @@ def convert_to_qty_units(results: List[str]):
                 continue
             iter_unit = None
             try:
-                # iter_unit = str(ureg[word].units)
-                iter_unit = str(ureg[word.lower()].units)
+                iter_unit = str(ureg[word].units)
             except:
                 pass
             if units is None and iter_unit is not None:
                 units = iter_unit
             else:
                 other.append(word)
-
-        name = ""
-        other_txt = " ".join(other)
-        description = None
-        if len(other_txt) < 220:
-            name = other_txt
-        elif len(other_txt) >= 220:
-            name = other_txt[:220]
-            description = other_txt[220:]
-        
         data = {
-            # "qty": qty,
-            # "qty_raw": qty_raw,
-            "quantity_as_float": qty,
-            "quantity": qty_raw,
+            "qty": qty,
+            "qty_raw": qty_raw,
             "unit": units,
-            # "other": " ".join(other)
-            "name": name,
-            "description": description,
+            "other": " ".join(other)
         }
         dataset.append(data)
     return dataset
+
+
+results = parse_paragraph_to_recipe_line(og)
+dataset = convert_to_qty_units(results)
+
+print(dataset, results)

@@ -1,7 +1,7 @@
-
- <form action='.' method="POST" hx-post='.' hx-swap='outerHTML'>  <!--hx-swap='outerHTML' isse forms ki nesting nhi hogi redirect hone pr-->
-    <!-- {% csrf_token %} 
-    {% if message %}
+<div id='recipe-container'> <!-- iski zaroot form.py me hx-target ke liye padegi,(wha par usko mt likho aur yha pe isko phir bhi auto dsave kaam karega ,form ke hx-trigger ki wajah se) -->
+ <form action='.' method="POST" hx-post='.' hx-swap='outerHTML'  hx-trigger='{% if form.instance.id %}change delay:500ms,{% endif %} submit'>  <!--hx-swap='outerHTML' isse forms ki nesting nhi hogi redirect hone pr and hx-trigger='{% if form.instance.id %}change delay:500ms,{% endif %} submit' AGAR KOI OBJECT HOGA TABHI TRIGGER KAAM KAREGA(ACTUALLY EDITING ME,HMNE ADD RECIPE KO AUR DYNAMIC BNANE KE LIYE USE KIYA THA)-->
+    {% csrf_token %} 
+    <!-- {% if message %}
     <p>{{ message }}</p>
     {% endif %} -->
    {% for field in form %}
@@ -36,4 +36,7 @@
     {% if message %}
     <p>{{ message }}</p>
     {% endif %}
+
+    <a href='{{ object.get_delete_url }}'>Delete</a>
 </form>
+</div>

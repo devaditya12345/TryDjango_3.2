@@ -57,6 +57,10 @@ class Article(models.Model):
 
     objects=ArticleManager() #for more complex search to make things more ROBUST (qs = Article.objects.search(query=query))
     
+    @property
+    def name(self):
+        return self.title #agar khi pr bhi artile.name call ho rha hai to wha pe name jayega
+    
 
 # save krne ke sath hi slug bhi set ho jayega
     def save(self, *args, **kwargs):
