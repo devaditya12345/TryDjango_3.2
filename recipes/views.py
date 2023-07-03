@@ -294,7 +294,8 @@ def recipe_ingredient_image_upload_view(request, parent_id=None):
         dataset = convert_to_qty_units(results)
         new_objs = []
         for data in dataset:
-            data['recipe_id']  = parent_id
+            # data['recipe_id']  = parent_id
+            data['recipe']  = parent_id
             new_objs.append(RecipeIngredient(**data))
         RecipeIngredient.objects.bulk_create(new_objs)
         success_url = parent_obj.get_edit_url()
